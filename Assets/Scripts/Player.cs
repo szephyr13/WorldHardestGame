@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [Header("User Interface")]
     public int score;
     public int lifes;
+    public int collectedYellows;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI lifesText;
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     {
         score = 0;
         lifes = 3;
+        collectedYellows = 0;
         check2 = false;
         check3 = false;
         check4 = false;
@@ -156,6 +158,7 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Collect"))
         {
             score++;
+            collectedYellows++;
             scoreText.text = "Points: " + score;
             Destroy(collision.gameObject);
         }
