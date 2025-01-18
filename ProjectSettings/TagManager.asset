@@ -9,6 +9,8 @@ TagManager:
   - Collect
   - Win
   - AddLife
+  - Check2
+  - Check3
   layers:
   - Default
   - TransparentFX
