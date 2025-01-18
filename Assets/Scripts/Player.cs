@@ -26,9 +26,11 @@ public class Player : MonoBehaviour
     //1 = game
     //2 = pause menu
     //3 = win menu
+    //4 = lose menu
     [SerializeField] private GameObject initialMenuUI;
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject wonMenuUI;
+    [SerializeField] private GameObject youLoseUI;
 
     
 
@@ -51,6 +53,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lifes <= 0)
+        {
+            mode = 4;
+        }
         UIControls();
         PlayerMovement();
         MovementLimits();
@@ -125,6 +131,19 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
+        else if (mode == 4)
+        {
+            initialMenuUI.SetActive(false);
+            pauseMenuUI.SetActive(false);
+            wonMenuUI.SetActive(false);
+            youLoseUI.SetActive(true);
+            Time.timeScale = 0f;
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -139,6 +158,15 @@ public class Player : MonoBehaviour
             score++;
             scoreText.text = "Points: " + score;
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("Avoid"))
+        {
+            score--;
+            lifes--;
+            scoreText.text = "Points: " + score;
+            lifesText.text = "Lifes: " + lifes;
+            transform.position = newStartPoint;
         }
 
         if (collision.CompareTag("Check2"))
